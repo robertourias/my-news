@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── Design Tokens ──────────────────────────────────────────────── */
+:root {
+  /* Light (reservado para customização futura) */
+  --background: #fafafa;
+  --surface: #ffffff;
+  --card: rgba(255, 255, 255, 0.72);
+  --card-border: rgba(0, 0, 0, 0.07);
+  --foreground: #18181b;
+  --text-secondary: #52525b;
+  --text-muted: #a1a1aa;
+  --ring: rgba(0, 0, 0, 0.24);
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.05), 0 16px 40px rgba(0, 0, 0, 0.08);
+
+  --gradient-hero:
+    radial-gradient(60rem 32rem at 15% -10%, color-mix(in oklab, var(--accent-hero) 14%, transparent), transparent 60%),
+    radial-gradient(50rem 28rem at 90% 0%, color-mix(in oklab, var(--accent-hero-2) 10%, transparent), transparent 55%);
+  --accent-hero: #6366f1;
+  --accent-hero-2: #06b6d4;
+
+  /* Movimento */
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Raio */
+  --radius-card: 1rem;
+  --radius-pill: 999px;
+}
+
+.dark {
+  /* Dark first — sem preto absoluto (padrão Vercel/Linear) */
+  --background: #0a0a0b;
+  --surface: #111113;
+  --card: rgba(255, 255, 255, 0.035);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --foreground: #ededf0;
+  --text-secondary: #a1a1aa;
+  --text-muted: #6b6b74;
+  --ring: rgba(255, 255, 255, 0.28);
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.25);
+  --shadow-card-hover: 0 2px 6px rgba(0, 0, 0, 0.4), 0 20px 48px rgba(0, 0, 0, 0.45);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-card-border: var(--card-border);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --radius-card: var(--radius-card);
+
+  --ease-smooth: var(--ease-smooth);
+  --ease-swift: var(--ease-swift);
+
+  --animate-shimmer: shimmer 1.8s linear infinite;
+  --animate-pulse-dot: pulse-dot 2.4s var(--ease-smooth) infinite;
+
+  @keyframes shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.85); }
+  }
+}
+
+/* ─── Base ───────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv11", "ss01";
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent-hero) 35%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Componentes ────────────────────────────────────────────────── */
+@layer components {
+  /* Glassmorphism leve */
+  .glass-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    transition:
+      border-color var(--dur-base) var(--ease-smooth),
+      box-shadow var(--dur-base) var(--ease-smooth),
+      transform var(--dur-base) var(--ease-smooth),
+      background var(--dur-base) var(--ease-smooth);
+  }
+  .glass-card:hover {
+    border-color: color-mix(in oklab, var(--accent, var(--card-border)) 45%, var(--card-border));
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+
+  /* Shimmer / skeleton */
+  .shimmer {
+    background: linear-gradient(
+      100deg,
+      var(--card) 40%,
+      color-mix(in oklab, var(--foreground) 7%, var(--card)) 50%,
+      var(--card) 60%
+    );
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+  }
+
+  /* Ripple discreto */
+  .ripple {
+    position: relative;
+    overflow: hidden;
+  }
+  .ripple::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at center, color-mix(in oklab, var(--foreground) 14%, transparent) 0%, transparent 70%);
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity var(--dur-slow) var(--ease-smooth), transform var(--dur-slow) var(--ease-smooth);
+    pointer-events: none;
+  }
+  .ripple:active::after {
+    opacity: 1;
+    transform: scale(1);
+    transition-duration: 0s;
+  }
+}
+
+/* ─── Reading focus: destaca a seção visível ─────────────────────── */
+.reading-flow [data-section] {
+  opacity: 0.55;
+  transition: opacity var(--dur-slow) var(--ease-smooth);
+}
+.reading-flow [data-section].is-active {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reading-flow [data-section] { opacity: 1; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+[id] { scroll-margin-top: 4rem; }

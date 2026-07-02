@@ -1,0 +1,19 @@
+# Desenvolvimento local
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: briefing-app
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATA_DIR: /app/data
+      NODE_ENV: production
+    ports:
+      - '3030:3000'
+    volumes:
+      - briefing_data:/app/data
+
+volumes:
+  briefing_data:

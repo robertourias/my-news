@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+data
+letsencrypt
+.env
+.env.local
+*.log
+.git
+README.md
+Dockerfile
+docker-compose.yml

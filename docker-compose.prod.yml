@@ -1,0 +1,31 @@
+# Produção (VPS) — Traefik já roda em container próprio na VPS
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: briefing-app
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATA_DIR: /app/data
+      NODE_ENV: production
+    volumes:
+      - briefing_data:/app/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.briefing.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.briefing.entrypoints=websecure"
+      - "traefik.http.routers.briefing.tls.certresolver=letsencrypt"
+      - "traefik.http.services.briefing.loadbalancer.server.port=3000"
+    # Se o seu Traefik estiver em uma rede Docker externa dedicada
+    # (ex.: "traefik" ou "web"), descomente e ajuste:
+    # networks:
+    #   - traefik
+
+# networks:
+#   traefik:
+#     external: true
+
+volumes:
+  briefing_data:
