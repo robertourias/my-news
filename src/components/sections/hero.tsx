@@ -33,13 +33,13 @@ export function Hero({
     reduce
       ? { initial: false, animate: { opacity: 1, y: 0 }, transition: { duration: 0 } }
       : {
-          initial: { opacity: 0, y: 18 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.5, delay, ease: EASE },
-        };
+        initial: { opacity: 0, y: 18 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.5, delay, ease: EASE },
+      };
 
   return (
-    <header className="relative flex min-h-[78svh] items-center overflow-hidden">
+    <header className="relative flex items-center overflow-hidden">
       <m.div
         aria-hidden
         className="absolute inset-0 -z-10"
