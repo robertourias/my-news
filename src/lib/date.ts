@@ -39,9 +39,8 @@ export function currentHour(tz = SITE.timezone): number {
   );
 }
 
-export function greeting(name: string, tz = SITE.timezone): string {
+export function greeting(name?: string, tz = SITE.timezone): string {
   const h = currentHour(tz);
-  if (h >= 5 && h < 12) return `Bom dia, ${name}`;
-  if (h >= 12 && h < 18) return `Boa tarde, ${name}`;
-  return `Boa noite, ${name}`;
+  const base = h >= 5 && h < 12 ? "Bom dia" : h >= 12 && h < 18 ? "Boa tarde" : "Boa noite";
+  return name ? `${base}, ${name}` : base;
 }
