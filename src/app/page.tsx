@@ -1,8 +1,10 @@
+import { auth } from "@/auth";
 import { getLatestBriefing } from "@/lib/briefing";
-import { CATEGORIES, SITE } from "@/lib/config";
+import { CATEGORIES } from "@/lib/config";
 import { formatFullDate, formatTime, greeting } from "@/lib/date";
 import type { AISection, CategoryKey } from "@/lib/types";
 import { EmptyState } from "@/components/empty-state";
+import { Nav } from "@/components/nav";
 import { ReadingFocus } from "@/components/reading-focus";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { AgendaSection } from "@/components/sections/agenda";
@@ -16,12 +18,14 @@ import { WeatherSection } from "@/components/sections/weather";
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  const briefing = await getLatestBriefing();
+  const [briefing, session] = await Promise.all([getLatestBriefing(), auth()]);
+  const isAuthenticated = Boolean(session?.user);
 
   if (!briefing) {
     return (
       <>
         <ScrollProgress />
+        <Nav />
         <EmptyState />
       </>
     );
@@ -41,8 +45,10 @@ export default async function Page() {
       <ScrollProgress />
       <ReadingFocus />
 
+      <Nav />
+
       <Hero
-        greeting={greeting(SITE.userName)}
+        greeting={greeting(session?.user?.name ?? undefined)}
         dateLabel={formatFullDate()}
         updatedTime={formatTime(briefing.generatedAt)}
         temperature={weather?.temperature ?? null}
@@ -57,7 +63,9 @@ export default async function Page() {
           <QuoteSection text={ai.dailyQuote.text} author={ai.dailyQuote.author} />
         )}
 
-        <AgendaSection events={agenda} aiSummary={ai?.agendaSummary} />
+        {isAuthenticated && (
+          <AgendaSection events={agenda} aiSummary={ai?.agendaSummary} />
+        )}
 
         {CATEGORIES.map(({ key }) => (
           <NewsSection
