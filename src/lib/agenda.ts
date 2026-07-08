@@ -9,11 +9,17 @@ import type { AgendaEvent } from "./types";
  */
 
 interface VEvent {
+  uid?: string;
   summary: string;
   location?: string;
   dtstart?: string; // valor bruto
   dtstartParams?: string; // ex.: TZID=America/Sao_Paulo ou VALUE=DATE
   rrule?: string;
+  status?: string;
+  /** presente quando este VEVENT sobrescreve uma ocorrência específica de um evento recorrente */
+  recurrenceId?: string | null;
+  /** datas (YYYY-MM-DD) de ocorrências excluídas de um evento recorrente */
+  exdates: string[];
 }
 
 function unfoldLines(ics: string): string[] {
@@ -30,7 +36,7 @@ function parseVEvents(ics: string): VEvent[] {
 
   for (const line of unfoldLines(ics)) {
     if (line === "BEGIN:VEVENT") {
-      current = { summary: "" };
+      current = { summary: "", exdates: [] };
       continue;
     }
     if (line === "END:VEVENT") {
@@ -47,6 +53,9 @@ function parseVEvents(ics: string): VEvent[] {
     const [key, ...params] = rawKey.split(";");
 
     switch (key) {
+      case "UID":
+        current.uid = value.trim();
+        break;
       case "SUMMARY":
         current.summary = value.replace(/\\,/g, ",").replace(/\\n/g, " ").trim();
         break;
@@ -59,6 +68,20 @@ function parseVEvents(ics: string): VEvent[] {
         break;
       case "RRULE":
         current.rrule = value.trim();
+        break;
+      case "STATUS":
+        current.status = value.trim().toUpperCase();
+        break;
+      case "RECURRENCE-ID":
+        current.recurrenceId = toDateOnly(value.trim());
+        break;
+      case "EXDATE":
+        current.exdates.push(
+          ...value
+            .split(",")
+            .map((v) => toDateOnly(v.trim()))
+            .filter((d): d is string => Boolean(d))
+        );
         break;
     }
   }
@@ -105,6 +128,18 @@ function tzOffsetString(tz: string): string {
     .find((p) => p.type === "timeZoneName")?.value; // ex.: GMT-03:00
   const m = part?.match(/GMT([+-]\d{2}:\d{2})/);
   return m ? m[1] : "+00:00";
+}
+
+/** Normaliza um valor bruto (DATE ou DATE-TIME) para YYYY-MM-DD, para comparar com "hoje". */
+function toDateOnly(raw: string): string | null {
+  if (/^\d{8}$/.test(raw)) {
+    return `${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 8)}`;
+  }
+  const m = raw.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z?)$/);
+  if (!m) return null;
+  const [, y, mo, d, h, mi, s, z] = m;
+  if (z === "Z") return dateInTz(`${y}-${mo}-${d}T${h}:${mi}:${s}Z`);
+  return `${y}-${mo}-${d}`;
 }
 
 function dateInTz(iso: string): string {
@@ -171,11 +206,28 @@ export async function fetchAgenda(): Promise<AgendaEvent[]> {
     const ics = await res.text();
     const today = todayISO();
 
+    const vevents = parseVEvents(ics);
+
+    // ocorrências sobrescritas (reagendadas/canceladas) têm seu próprio VEVENT com RECURRENCE-ID,
+    // que deve suprimir a ocorrência gerada pelo RRULE do evento base na mesma data
+    const overriddenDates = new Set<string>();
+    for (const ev of vevents) {
+      if (ev.uid && ev.recurrenceId) overriddenDates.add(`${ev.uid}|${ev.recurrenceId}`);
+    }
+
     const events: AgendaEvent[] = [];
-    for (const ev of parseVEvents(ics)) {
+    for (const ev of vevents) {
       if (!ev.summary) continue;
+      if (ev.status === "CANCELLED") continue;
+
       const occurrence = occursToday(ev, today);
       if (!occurrence) continue;
+
+      if (ev.rrule && !ev.recurrenceId) {
+        if (ev.exdates.includes(today)) continue;
+        if (ev.uid && overriddenDates.has(`${ev.uid}|${today}`)) continue;
+      }
+
       events.push({
         title: ev.summary,
         start: occurrence.start,

@@ -17,6 +17,7 @@ export function AgendaSection({ events, aiSummary }: AgendaSectionProps) {
       accent="#fbbf24"
       icon={<CalendarDays className="size-4.5" aria-hidden />}
       intro={aiSummary}
+      collapsible
     >
       {events.length === 0 ? (
         <p className="glass-card p-6 text-sm text-secondary">

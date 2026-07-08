@@ -29,6 +29,7 @@ export function NewsSection({ category, articles, ai }: NewsSectionProps) {
       accent={meta.accent}
       icon={ICONS[category]}
       intro={ai?.summary}
+      collapsible
     >
       {articles.length === 0 ? (
         <p className="glass-card p-6 text-sm text-muted">Sem notícias nesta categoria hoje.</p>

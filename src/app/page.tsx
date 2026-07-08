@@ -13,6 +13,7 @@ import { Hero } from "@/components/sections/hero";
 import { InsightsSection } from "@/components/sections/insights";
 import { NewsSection } from "@/components/sections/news-section";
 import { QuoteSection } from "@/components/sections/quote";
+import { StudyPlanSection } from "@/components/sections/study-plan";
 import { WeatherSection } from "@/components/sections/weather";
 
 export const dynamic = "force-dynamic";
@@ -58,6 +59,22 @@ export default async function Page() {
 
       <main>
         <WeatherSection weather={weather} aiSummary={ai?.weatherSummary} />
+
+        <StudyPlanSection
+          id="estudos-dev"
+          emoji="🧠"
+          label="Plano de Estudos — Dev & IA"
+          accent="#a78bfa"
+          url="https://claude.ai/public/artifacts/16cb8ae5-12c1-4b3b-8049-e9fca027c179"
+        />
+
+        <StudyPlanSection
+          id="estudos-linguas"
+          emoji="🎸"
+          label="Plano de Estudos — Inglês & Espanhol"
+          accent="#fb7185"
+          url="https://claude.ai/public/artifacts/179a5f1f-5692-468c-a76e-5d6b62b45411"
+        />
 
         {ai?.dailyQuote.text && (
           <QuoteSection text={ai.dailyQuote.text} author={ai.dailyQuote.author} />
