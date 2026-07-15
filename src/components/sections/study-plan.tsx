@@ -643,6 +643,5 @@ function PriorityBox({ title, text }: { title: string; text: string }) {
 function softStyle(color: string, soft: string): CSSProperties {
   return {
     borderColor: `color-mix(in oklab, ${color} 28%, var(--card-border))`,
-    background: `color-mix(in oklab, ${soft} 72%, var(--card))`,
   };
 }

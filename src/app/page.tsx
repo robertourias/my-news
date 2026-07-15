@@ -60,24 +60,28 @@ export default async function Page() {
       <main>
         <WeatherSection weather={weather} aiSummary={ai?.weatherSummary} />
 
-        <StudyPlanSection
-          id="estudos-dev"
-          emoji="🧠"
-          label="Plano de Estudos — Dev & IA"
-          accent="#a78bfa"
-          plan="dev-ai"
-        />
-
-        <StudyPlanSection
-          id="estudos-linguas"
-          emoji="🎸"
-          label="Plano de Estudos — Inglês & Espanhol"
-          accent="#fb7185"
-          plan="languages"
-        />
-
         {ai?.dailyQuote.text && (
           <QuoteSection text={ai.dailyQuote.text} author={ai.dailyQuote.author} />
+        )}
+
+        {isAuthenticated && (
+          <>
+            <StudyPlanSection
+              id="estudos-dev"
+              emoji="🧠"
+              label="Plano de Estudos — Dev & IA"
+              accent="#a78bfa"
+              plan="dev-ai"
+            />
+
+            <StudyPlanSection
+              id="estudos-linguas"
+              emoji="🎸"
+              label="Plano de Estudos — Inglês & Espanhol"
+              accent="#fb7185"
+              plan="languages"
+            />
+          </>
         )}
 
         {isAuthenticated && (
