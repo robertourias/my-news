@@ -95,38 +95,52 @@ const devTechTip = {
 };
 
 const devDays: WeekdayPlan[] = [
-  { day: "SEG", label: "Segunda", tone: "#7c3aed", toneLabel: "90 min", blocks: [
-    { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — aula ou material da semana", icon: "🎓" },
-    { type: "cursodev", label: "Curso.dev", time: "30 min", activity: "Curso.dev — módulo do dia", icon: "💻" },
-    { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
-  ], tip: devTechTip },
-  { day: "TER", label: "Terça", tone: "#e11d48", toneLabel: "90 min", blocks: [
-    { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — continuação da aula", icon: "🎓" },
-    { type: "rocket", label: "Rocketseat", time: "30 min", activity: "Rocketseat — trilha ativa", icon: "🚀" },
-    { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
-  ], tip: devTechTip },
-  { day: "QUA", label: "Quarta", tone: "#0ea5e9", toneLabel: "90 min", blocks: [
-    { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — exercícios ou revisão", icon: "🎓" },
-    { type: "cursodev", label: "Curso.dev", time: "30 min", activity: "Curso.dev — módulo do dia", icon: "💻" },
-    { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
-  ], tip: devTechTip },
-  { day: "QUI", label: "Quinta", tone: "#e11d48", toneLabel: "90 min", blocks: [
-    { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — nova aula ou leitura", icon: "🎓" },
-    { type: "rocket", label: "Rocketseat", time: "30 min", activity: "Rocketseat — trilha ativa", icon: "🚀" },
-    { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
-  ], tip: devTechTip },
-  { day: "SEX", label: "Sexta", tone: "#0ea5e9", toneLabel: "90 min", blocks: [
-    { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — revisão semanal", icon: "🎓" },
-    { type: "cursodev", label: "Curso.dev", time: "30 min", activity: "Curso.dev — consolidação da semana", icon: "💻" },
-    { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
-  ], tip: devTechTip },
-  { day: "SAB", label: "Sábado", tone: "#059669", toneLabel: "90 min", blocks: [
-    { type: "rocket", label: "Rocketseat", time: "30 min", activity: "Rocketseat — trilha ou projeto prático", icon: "🚀" },
-    { type: "content", label: "Conteúdo técnico", time: "60 min", activity: "Vídeos técnicos — YouTube / conferências", icon: "📺" },
-  ], tip: { title: "Sábado = margem de manobra", text: "Se perdeu sessão na semana, use o sábado para repor. Também é um bom bloco para projetos práticos.", color: "#d97706", soft: "#fffbeb" } },
-  { day: "DOM", label: "Domingo", tone: "#64748b", toneLabel: "60 min", blocks: [
-    { type: "content", label: "Conteúdo técnico", time: "60 min", activity: "Conteúdo da área — leitura leve ou vídeo", icon: "📺" },
-  ], tip: { title: "Domingo = consumo leve", text: "Apenas vídeos ou leitura técnica leve. Sem pressão de completar módulos.", color: "#059669", soft: "#ecfdf5" } },
+  {
+    day: "SEG", label: "Segunda", tone: "#7c3aed", toneLabel: "90 min", blocks: [
+      { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — aula ou material da semana", icon: "🎓" },
+      { type: "cursodev", label: "Curso.dev", time: "30 min", activity: "Curso.dev — módulo do dia", icon: "💻" },
+      { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
+    ], tip: devTechTip
+  },
+  {
+    day: "TER", label: "Terça", tone: "#e11d48", toneLabel: "90 min", blocks: [
+      { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — continuação da aula", icon: "🎓" },
+      { type: "rocket", label: "Rocketseat", time: "30 min", activity: "Rocketseat — trilha ativa", icon: "🚀" },
+      { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
+    ], tip: devTechTip
+  },
+  {
+    day: "QUA", label: "Quarta", tone: "#0ea5e9", toneLabel: "90 min", blocks: [
+      { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — exercícios ou revisão", icon: "🎓" },
+      { type: "cursodev", label: "Curso.dev", time: "30 min", activity: "Curso.dev — módulo do dia", icon: "💻" },
+      { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
+    ], tip: devTechTip
+  },
+  {
+    day: "QUI", label: "Quinta", tone: "#e11d48", toneLabel: "90 min", blocks: [
+      { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — nova aula ou leitura", icon: "🎓" },
+      { type: "rocket", label: "Rocketseat", time: "30 min", activity: "Rocketseat — trilha ativa", icon: "🚀" },
+      { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
+    ], tip: devTechTip
+  },
+  {
+    day: "SEX", label: "Sexta", tone: "#0ea5e9", toneLabel: "90 min", blocks: [
+      { type: "pos", label: "Pós — IA Aplicada", time: "45 min", activity: "Pós Unipds — revisão semanal", icon: "🎓" },
+      { type: "cursodev", label: "Curso.dev", time: "30 min", activity: "Curso.dev — consolidação da semana", icon: "💻" },
+      { type: "interview", label: "Testes Técnicos", time: "15 min", activity: "frontend-enterview-prep — 1 exercício", icon: "🧩" },
+    ], tip: devTechTip
+  },
+  {
+    day: "SAB", label: "Sábado", tone: "#059669", toneLabel: "90 min", blocks: [
+      { type: "rocket", label: "Rocketseat", time: "30 min", activity: "Rocketseat — trilha ou projeto prático", icon: "🚀" },
+      { type: "content", label: "Conteúdo técnico", time: "60 min", activity: "Vídeos técnicos — YouTube / conferências", icon: "📺" },
+    ], tip: { title: "Sábado = margem de manobra", text: "Se perdeu sessão na semana, use o sábado para repor. Também é um bom bloco para projetos práticos.", color: "#d97706", soft: "#fffbeb" }
+  },
+  {
+    day: "DOM", label: "Domingo", tone: "#64748b", toneLabel: "60 min", blocks: [
+      { type: "content", label: "Conteúdo técnico", time: "60 min", activity: "Conteúdo da área — leitura leve ou vídeo", icon: "📺" },
+    ], tip: { title: "Domingo = consumo leve", text: "Apenas vídeos ou leitura técnica leve. Sem pressão de completar módulos.", color: "#059669", soft: "#ecfdf5" }
+  },
 ];
 
 const devPhases: PhasePlan[] = [
@@ -153,46 +167,60 @@ const languageItems: ThemeItem[] = [
 ];
 
 const languageDays: WeekdayPlan[] = [
-  { day: "SEG", label: "Segunda", tone: "#2563eb", toneLabel: "Inglês · 75min", blocks: [
-    { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
-    { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
-    { type: "kiwify", label: "Kiwify", time: "20 min", activity: "Inglês de uma vez — módulo do dia", icon: "🎓" },
-    { type: "ai", label: "IA", time: "15 min", activity: "Conversa com IA — tema livre", icon: "🤖" },
-  ] },
-  { day: "TER", label: "Terça", tone: "#2563eb", toneLabel: "Inglês · 80min", blocks: [
-    { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
-    { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
-    { type: "music", label: "Música Rock", time: "30 min", activity: "Análise de letra de música rock", icon: "🎸" },
-    { type: "notion", label: "Notion", time: "10 min", activity: "Registro no Notion", icon: "📝" },
-  ] },
-  { day: "QUA", label: "Quarta", tone: "#2563eb", toneLabel: "Inglês · 75min", blocks: [
-    { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
-    { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
-    { type: "kiwify", label: "Kiwify", time: "20 min", activity: "Inglês de uma vez — módulo do dia", icon: "🎓" },
-    { type: "ai", label: "IA", time: "15 min", activity: "Role-play de situação real", icon: "🤖" },
-  ] },
-  { day: "QUI", label: "Quinta", tone: "#2563eb", toneLabel: "Inglês · 80min", blocks: [
-    { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
-    { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
-    { type: "music", label: "YouTube Rock", time: "30 min", activity: "Canal de rock em inglês — YouTube", icon: "🎬" },
-    { type: "notion", label: "Notion", time: "10 min", activity: "Vocabulário novo no Notion", icon: "📝" },
-  ] },
-  { day: "SEX", label: "Sexta", tone: "#2563eb", toneLabel: "Inglês · 85min", blocks: [
-    { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
-    { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
-    { type: "notion", label: "Notion", time: "25 min", activity: "Revisão da semana no Notion", icon: "📝" },
-    { type: "ai", label: "IA", time: "20 min", activity: "Conversa temática — música/cultura", icon: "🤖" },
-  ] },
-  { day: "SAB", label: "Sábado", tone: "#dc2626", toneLabel: "Espanhol · 100min", blocks: [
-    { type: "duolingo", label: "Duolingo ES", time: "20 min", activity: "Duolingo — lições de espanhol", icon: "🦉" },
-    { type: "mairo", label: "Mairo Vergara ES", time: "35 min", activity: "Estudo de textos em espanhol", icon: "📖" },
-    { type: "ai", label: "IA", time: "20 min", activity: "Conversa em espanhol sobre o texto estudado", icon: "🤖" },
-    { type: "music", label: "Série/Música ES", time: "15 min", activity: "Série ou música em espanhol", icon: "🎵" },
-    { type: "notion", label: "Notion", time: "10 min", activity: "Vocabulário ES no Notion", icon: "📝" },
-  ], tip: { title: "Dica do sábado", text: "Aproveite a proximidade do português. Use a IA para falar sobre o texto estudado.", color: "#dc2626", soft: "#fff1f2" } },
-  { day: "DOM", label: "Domingo", tone: "#6b7280", toneLabel: "Livre", blocks: [
-    { type: "rest", label: "Descanso", time: "livre", activity: "Consumo passivo — podcast ou música em inglês", icon: "☁️" },
-  ], tip: { title: "Domingo livre", text: "Consumo passivo apenas. Um podcast em inglês enquanto caminha já conta.", color: "#6b7280", soft: "#f3f4f6" } },
+  {
+    day: "SEG", label: "Segunda", tone: "#2563eb", toneLabel: "Inglês · 75min", blocks: [
+      { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
+      { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
+      { type: "kiwify", label: "Kiwify", time: "20 min", activity: "Inglês de uma vez — módulo do dia", icon: "🎓" },
+      { type: "ai", label: "IA", time: "15 min", activity: "Conversa com IA — tema livre", icon: "🤖" },
+    ]
+  },
+  {
+    day: "TER", label: "Terça", tone: "#2563eb", toneLabel: "Inglês · 80min", blocks: [
+      { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
+      { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
+      { type: "music", label: "Música Rock", time: "30 min", activity: "Análise de letra de música rock", icon: "🎸" },
+      { type: "notion", label: "Notion", time: "10 min", activity: "Registro no Notion", icon: "📝" },
+    ]
+  },
+  {
+    day: "QUA", label: "Quarta", tone: "#2563eb", toneLabel: "Inglês · 75min", blocks: [
+      { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
+      { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
+      { type: "kiwify", label: "Kiwify", time: "20 min", activity: "Inglês de uma vez — módulo do dia", icon: "🎓" },
+      { type: "ai", label: "IA", time: "15 min", activity: "Role-play de situação real", icon: "🤖" },
+    ]
+  },
+  {
+    day: "QUI", label: "Quinta", tone: "#2563eb", toneLabel: "Inglês · 80min", blocks: [
+      { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
+      { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
+      { type: "music", label: "YouTube Rock", time: "30 min", activity: "Canal de rock em inglês — YouTube", icon: "🎬" },
+      { type: "notion", label: "Notion", time: "10 min", activity: "Vocabulário novo no Notion", icon: "📝" },
+    ]
+  },
+  {
+    day: "SEX", label: "Sexta", tone: "#2563eb", toneLabel: "Inglês · 85min", blocks: [
+      { type: "duolingo", label: "Duolingo", time: "20 min", activity: "Lições diárias — manter streak", icon: "🦉" },
+      { type: "mairo", label: "Mairo Vergara", time: "20 min", activity: "Estudo de texto em inglês", icon: "📖" },
+      { type: "notion", label: "Notion", time: "25 min", activity: "Revisão da semana no Notion", icon: "📝" },
+      { type: "ai", label: "IA", time: "20 min", activity: "Conversa temática — música/cultura", icon: "🤖" },
+    ]
+  },
+  {
+    day: "SAB", label: "Sábado", tone: "#dc2626", toneLabel: "Espanhol · 100min", blocks: [
+      { type: "duolingo", label: "Duolingo ES", time: "20 min", activity: "Duolingo — lições de espanhol", icon: "🦉" },
+      { type: "mairo", label: "Mairo Vergara ES", time: "35 min", activity: "Estudo de textos em espanhol", icon: "📖" },
+      { type: "ai", label: "IA", time: "20 min", activity: "Conversa em espanhol sobre o texto estudado", icon: "🤖" },
+      { type: "music", label: "Série/Música ES", time: "15 min", activity: "Série ou música em espanhol", icon: "🎵" },
+      { type: "notion", label: "Notion", time: "10 min", activity: "Vocabulário ES no Notion", icon: "📝" },
+    ], tip: { title: "Dica do sábado", text: "Aproveite a proximidade do português. Use a IA para falar sobre o texto estudado.", color: "#dc2626", soft: "#fff1f2" }
+  },
+  {
+    day: "DOM", label: "Domingo", tone: "#6b7280", toneLabel: "Livre", blocks: [
+      { type: "rest", label: "Descanso", time: "livre", activity: "Consumo passivo — podcast ou música em inglês", icon: "☁️" },
+    ], tip: { title: "Domingo livre", text: "Consumo passivo apenas. Um podcast em inglês enquanto caminha já conta.", color: "#6b7280", soft: "#f3f4f6" }
+  },
 ];
 
 const languagePhases: PhasePlan[] = [
@@ -399,7 +427,7 @@ function StudyPlanModal({
           {tab === 2 && (
             <div className="mt-5">
               <TipsGrid tips={data.tips} />
-              <PriorityBox title={data.priority.title} text={data.priority.text} />
+              <PriorityBox title={data.priority.title} text={data.priority.text.toString()} />
             </div>
           )}
 
