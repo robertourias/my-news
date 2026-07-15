@@ -65,7 +65,7 @@ export default async function Page() {
           emoji="🧠"
           label="Plano de Estudos — Dev & IA"
           accent="#a78bfa"
-          url="https://claude.ai/public/artifacts/16cb8ae5-12c1-4b3b-8049-e9fca027c179"
+          plan="dev-ai"
         />
 
         <StudyPlanSection
@@ -73,7 +73,7 @@ export default async function Page() {
           emoji="🎸"
           label="Plano de Estudos — Inglês & Espanhol"
           accent="#fb7185"
-          url="https://claude.ai/public/artifacts/179a5f1f-5692-468c-a76e-5d6b62b45411"
+          plan="languages"
         />
 
         {ai?.dailyQuote.text && (

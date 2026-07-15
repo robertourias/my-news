@@ -1,0 +1,784 @@
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+  }
+
+  :root {
+    --bg: #f8fafc;
+    --surface: #fff;
+    --surface2: #f1f5f9;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --text2: #475569;
+    --text3: #94a3b8;
+    --radius: 10px;
+    --trans: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    --warn-bg: #fffbeb;
+    --warn-border: #fde68a;
+    --warn-title: #92400e;
+    --warn-text: #78350f;
+    --orange-bg: #fff7ed;
+    --orange-border: #fed7aa;
+    --orange-title: #9a3412;
+    --orange-text: #7c2d12;
+    --rest-bg: #f3f4f6;
+    --rest-border: #e5e7eb;
+    --rest-title: #374151;
+    --rest-text: #6b7280;
+    --success-border: #a7f3d0;
+    --success-title: #065f46;
+  }
+
+  body.dark {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #0f172a;
+    --border: #334155;
+    --text: #f1f5f9;
+    --text2: #94a3b8;
+    --text3: #475569;
+    --warn-bg: #451a03;
+    --warn-border: #92400e;
+    --warn-title: #fbbf24;
+    --warn-text: #fde68a;
+    --orange-bg: #431407;
+    --orange-border: #9a3412;
+    --orange-title: #fdba74;
+    --orange-text: #fed7aa;
+    --rest-bg: #111827;
+    --rest-border: #374151;
+    --rest-title: #d1d5db;
+    --rest-text: #9ca3af;
+    --success-border: #065f46;
+    --success-title: #86efac;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    transition: var(--trans)
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 20px 16px
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text)
+  }
+
+  .subtitle {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 3px
+  }
+
+  .dark-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--trans)
+  }
+
+  .content-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px
+  }
+
+  .cc {
+    border-radius: 10px;
+    padding: 11px 13px;
+    border: 1.5px solid
+  }
+
+  .cc-name {
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 2px
+  }
+
+  .cc-sub {
+    font-size: 11px;
+    color: var(--text2);
+    margin-bottom: 5px
+  }
+
+  .badge {
+    display: inline-block;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--surface2);
+    padding: 4px;
+    border-radius: 10px;
+    margin-bottom: 18px
+  }
+
+  .tab {
+    flex: 1;
+    padding: 7px 4px;
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--trans);
+    font-weight: 500
+  }
+
+  .tab.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08)
+  }
+
+  .day-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px
+  }
+
+  .day-btn {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--trans);
+    min-width: 48px;
+    text-align: center
+  }
+
+  .day-btn.en.active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff
+  }
+
+  .day-btn.es.active {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #fff
+  }
+
+  .day-btn.rest.active {
+    background: #6b7280;
+    border-color: #6b7280;
+    color: #fff
+  }
+
+  .day-mins {
+    font-size: 9px;
+    opacity: 0.8;
+    display: block
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px
+  }
+
+  .card-header {
+    padding: 14px 16px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text)
+  }
+
+  .pill {
+    font-size: 11px;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500
+  }
+
+  .card-body {
+    padding: 0 16px 16px
+  }
+
+  .block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 9px;
+    border: 1.5px solid;
+    margin-bottom: 8px
+  }
+
+  .block:last-child {
+    margin-bottom: 0
+  }
+
+  .block-icon {
+    font-size: 18px;
+    flex-shrink: 0
+  }
+
+  .block-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin-bottom: 2px
+  }
+
+  .block-activity {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text)
+  }
+
+  .block-time {
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--surface);
+    flex-shrink: 0;
+    color: var(--text2)
+  }
+
+  .tip-box {
+    margin-top: 10px;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid
+  }
+
+  .tip-title {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 3px
+  }
+
+  .tip-text {
+    font-size: 12px;
+    line-height: 1.5
+  }
+
+  .footer-note {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text2)
+  }
+
+  .qtr-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px
+  }
+
+  .qtr-btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--trans);
+    line-height: 1.4
+  }
+
+  .obj-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 14px
+  }
+
+  .obj-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 9px 13px;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 13px;
+    color: var(--text)
+  }
+
+  .obj-num {
+    font-weight: 700;
+    font-size: 12px;
+    min-width: 18px;
+    flex-shrink: 0
+  }
+
+  .milestone {
+    padding: 11px 13px;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 2px solid
+  }
+
+  .milestone-label {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 3px
+  }
+
+  .ai-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 12px
+  }
+
+  .ai-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px
+  }
+
+  .ai-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px
+  }
+
+  .ai-items {
+    display: flex;
+    flex-direction: column;
+    gap: 7px
+  }
+
+  .ai-item {
+    padding: 9px 11px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.55
+  }
+
+  .notion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+    margin-bottom: 18px
+  }
+
+  .notion-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 15px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start
+  }
+
+  .notion-icon {
+    font-size: 20px;
+    flex-shrink: 0
+  }
+
+  .notion-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px
+  }
+
+  .notion-desc {
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.4
+  }
+
+  .template-box {
+    background: var(--surface2);
+    border-radius: 10px;
+    border: 1.5px solid var(--success-border);
+    padding: 14px 16px;
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 2.1
+  }
+
+  .rock-tip {
+    margin-top: 12px;
+    background: var(--warn-bg);
+    border-color: var(--warn-border)
+  }
+
+  .rock-tip .tip-title {
+    color: var(--warn-title)
+  }
+
+  .rock-tip .tip-text {
+    color: var(--warn-text)
+  }
+
+  .template-card {
+    background: var(--surface);
+    border: 1.5px solid var(--success-border);
+    border-radius: 12px;
+    overflow: hidden
+  }
+
+  .template-title {
+    padding: 13px 16px 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--success-title)
+  }
+</style>
+<h2 class="sr-only">Plano de estudos de inglês e espanhol: rotina semanal, plano anual, uso da IA e Notion</h2>
+<div class="wrap" id="app">
+  <div class="header">
+    <div>
+      <div class="title">🎸 Plano de estudos — Inglês & Espanhol</div>
+      <div class="subtitle">1 ano estruturado · Rock · IA · Notion · Duolingo · Mairo Vergara · Kiwify</div>
+    </div>
+    <button class="dark-btn" id="darkBtn" onclick="toggleDark()">🌙 Dark</button>
+  </div>
+
+  <div class="content-cards" id="contentCards"></div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('rotina',this)">📅 Rotina semanal</button>
+    <button class="tab" onclick="showTab('plano',this)">🗓 Plano anual</button>
+    <button class="tab" onclick="showTab('ia',this)">🤖 Uso da IA</button>
+    <button class="tab" onclick="showTab('notion',this)">📝 Notion</button>
+  </div>
+
+  <div id="rotina">
+    <div class="day-btns" id="dayBtns"></div>
+    <div class="card" id="dayCard"></div>
+    <div class="footer-note" id="footerNote"></div>
+  </div>
+  <div id="plano" style="display:none">
+    <div class="qtr-btns" id="qtrBtns"></div>
+    <div id="qtrCard"></div>
+  </div>
+  <div id="ia" style="display:none">
+    <div class="ai-grid" id="aiGrid"></div>
+    <div class="tip-box rock-tip">
+      <div class="tip-title">🎯 Canais de rock no YouTube</div>
+      <div class="tip-text"><b>Genius Live · eTalk · Rock History · Songfacts</b> — busque a música + "meaning
+        explained" ou "lyrics breakdown" para ter análises prontas para discutir com a IA.</div>
+    </div>
+  </div>
+  <div id="notion" style="display:none">
+    <div class="notion-grid" id="notionGrid"></div>
+    <div class="template-card">
+      <div class="template-title">📋 Template de registro diário</div>
+      <div class="template-box">
+        <div>📅 <b>Data:</b> ___________</div>
+        <div>⏱ <b>Tempo estudado:</b> _____ min</div>
+        <div>📚 <b>O que fiz:</b> ___________</div>
+        <div>🎸 <b>Música do dia:</b> ___________</div>
+        <div>📖 <b>Palavra nova:</b> ___ (ex: ___)</div>
+        <div>🤖 <b>IA hoje:</b> sim / não — tema: ___</div>
+        <div>💬 <b>Frase que aprendi:</b> ___________</div>
+        <div>⭐ <b>Nível de confiança:</b> 1–5</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const contentTypes = [
+    { icon: '🦉', name: 'Duolingo', sub: 'Streak diária', days: 'Seg–Sex', color: '#2563eb', colord: '#93c5fd', bg: '#eff6ff', bgd: 'none', border: '#bfdbfe', bd: '#1d4ed8' },
+    { icon: '📖', name: 'Mairo Vergara', sub: 'Textos + ES sábado', days: 'Seg–Sab', color: '#7c3aed', colord: '#c084fc', bg: '#f5f3ff', bgd: 'none', border: '#ddd6fe', bd: '#4c1d95' },
+    { icon: '🎓', name: 'Kiwify', sub: 'Inglês de uma vez', days: 'Seg–Sex', color: '#0ea5e9', colord: '#7dd3fc', bg: '#f0f9ff', bgd: 'none', border: '#bae6fd', bd: '#075985' },
+    { icon: '🎸', name: 'Músicas Rock', sub: 'YouTube + letras', days: 'Ter–Qui', color: '#e11d48', colord: '#fda4af', bg: '#fff1f2', bgd: 'none', border: '#fecdd3', bd: '#9f1239' },
+    { icon: '🤖', name: 'IA (Claude)', sub: 'Conversação prática', days: 'Seg–Sex', color: '#059669', colord: '#6ee7b7', bg: '#ecfdf5', bgd: 'none', border: '#a7f3d0', bd: '#065f46' },
+    { icon: '🇪🇸', name: 'Espanhol', sub: 'Duolingo + Mairo ES', days: 'Sábado', color: '#dc2626', colord: '#fca5a5', bg: '#fff1f2', bgd: 'none', border: '#fecdd3', bd: '#991b1b' },
+  ]
+
+  const typeColors = {
+    duolingo: { bg: '#eff6ff', bgd: '#1e3a8a', border: '#bfdbfe', bd: '#1d4ed8', color: '#2563eb', colord: '#93c5fd' },
+    mairo: { bg: '#f5f3ff', bgd: '#2e1065', border: '#ddd6fe', bd: '#4c1d95', color: '#7c3aed', colord: '#c084fc' },
+    kiwify: { bg: '#f0f9ff', bgd: '#0c4a6e', border: '#bae6fd', bd: '#075985', color: '#0ea5e9', colord: '#7dd3fc' },
+    music: { bg: '#fff1f2', bgd: '#4c0519', border: '#fecdd3', bd: '#9f1239', color: '#e11d48', colord: '#fda4af' },
+    ai: { bg: '#ecfdf5', bgd: '#064e3b', border: '#a7f3d0', bd: '#065f46', color: '#059669', colord: '#6ee7b7' },
+    notion: { bg: '#f8fafc', bgd: '#0f172a', border: '#e2e8f0', bd: '#334155', color: '#64748b', colord: '#cbd5e1' },
+    es: { bg: '#fff7ed', bgd: '#431407', border: '#fed7aa', bd: '#9a3412', color: '#ea580c', colord: '#fdbb2d' },
+    rest: { bg: '#f3f4f6', bgd: '#111827', border: '#e5e7eb', bd: '#374151', color: '#6b7280', colord: '#9ca3af' },
+  }
+
+  const weekdays = [
+    {
+      day: 'SEG', label: 'Segunda', lang: 'EN', blocks: [
+        { type: 'duolingo', label: 'Duolingo', time: '20 min', activity: 'Lições diárias — manter streak', icon: '🦉' },
+        { type: 'mairo', label: 'Mairo Vergara', time: '20 min', activity: 'Estudo de texto em inglês', icon: '📖' },
+        { type: 'kiwify', label: 'Kiwify', time: '20 min', activity: 'Inglês de uma vez — módulo do dia', icon: '🎓' },
+        { type: 'ai', label: 'IA (Claude)', time: '15 min', activity: 'Conversa com IA — tema livre', icon: '🤖' },
+      ]
+    },
+    {
+      day: 'TER', label: 'Terça', lang: 'EN', blocks: [
+        { type: 'duolingo', label: 'Duolingo', time: '20 min', activity: 'Lições diárias — manter streak', icon: '🦉' },
+        { type: 'mairo', label: 'Mairo Vergara', time: '20 min', activity: 'Estudo de texto em inglês', icon: '📖' },
+        { type: 'music', label: 'Música Rock', time: '30 min', activity: 'Análise de letra de música rock', icon: '🎸' },
+        { type: 'notion', label: 'Notion', time: '10 min', activity: 'Registro no Notion', icon: '📝' },
+      ]
+    },
+    {
+      day: 'QUA', label: 'Quarta', lang: 'EN', blocks: [
+        { type: 'duolingo', label: 'Duolingo', time: '20 min', activity: 'Lições diárias — manter streak', icon: '🦉' },
+        { type: 'mairo', label: 'Mairo Vergara', time: '20 min', activity: 'Estudo de texto em inglês', icon: '📖' },
+        { type: 'kiwify', label: 'Kiwify', time: '20 min', activity: 'Inglês de uma vez — módulo do dia', icon: '🎓' },
+        { type: 'ai', label: 'IA (Claude)', time: '15 min', activity: 'Role-play de situação real', icon: '🤖' },
+      ]
+    },
+    {
+      day: 'QUI', label: 'Quinta', lang: 'EN', blocks: [
+        { type: 'duolingo', label: 'Duolingo', time: '20 min', activity: 'Lições diárias — manter streak', icon: '🦉' },
+        { type: 'mairo', label: 'Mairo Vergara', time: '20 min', activity: 'Estudo de texto em inglês', icon: '📖' },
+        { type: 'music', label: 'YouTube Rock', time: '30 min', activity: 'Canal de rock em inglês — YouTube', icon: '🎬' },
+        { type: 'notion', label: 'Notion', time: '10 min', activity: 'Vocabulário novo no Notion', icon: '📝' },
+      ]
+    },
+    {
+      day: 'SEX', label: 'Sexta', lang: 'EN', blocks: [
+        { type: 'duolingo', label: 'Duolingo', time: '20 min', activity: 'Lições diárias — manter streak', icon: '🦉' },
+        { type: 'mairo', label: 'Mairo Vergara', time: '20 min', activity: 'Estudo de texto em inglês', icon: '📖' },
+        { type: 'notion', label: 'Notion', time: '25 min', activity: 'Revisão da semana no Notion', icon: '📝' },
+        { type: 'ai', label: 'IA (Claude)', time: '20 min', activity: 'Conversa temática — música/cultura', icon: '🤖' },
+      ]
+    },
+    {
+      day: 'SAB', label: 'Sábado', lang: 'ES', blocks: [
+        { type: 'duolingo', label: 'Duolingo ES', time: '20 min', activity: 'Duolingo — lições de espanhol (streak)', icon: '🦉' },
+        { type: 'mairo', label: 'Mairo Vergara ES', time: '35 min', activity: 'Mairo Vergara — estudo de textos em espanhol', icon: '📖' },
+        { type: 'ai', label: 'IA (Claude)', time: '20 min', activity: 'IA: conversa em espanhol sobre o texto estudado', icon: '🤖' },
+        { type: 'music', label: 'Série/Música ES', time: '15 min', activity: 'Série/música em espanhol (YouTube/Netflix)', icon: '🎵' },
+        { type: 'notion', label: 'Notion', time: '10 min', activity: 'Vocabulário ES no Notion', icon: '📝' },
+      ]
+    },
+    {
+      day: 'DOM', label: 'Domingo', lang: 'REST', blocks: [
+        { type: 'rest', label: 'Descanso', time: 'livre', activity: 'Consumo passivo — podcast ou música em inglês', icon: '☁️' },
+      ]
+    },
+  ]
+
+  const quarters = [
+    {
+      id: 'q1', label: 'Q1', period: 'Meses 1–3', level: 'Foundation', color: '#2563eb', colord: '#93c5fd', bg: '#eff6ff', bgd: 'none', border: '#bfdbfe', borderd: '#1d4ed8',
+      goal: 'Construir base sólida e hábito diário',
+      objectives: ['Completar 60 lições no Duolingo (streak diária)', 'Terminar o módulo básico do Mairo Vergara + iniciar Kiwify', 'Memorizar 300 palavras no contexto de músicas rock', 'Conseguir se apresentar e ter conversa de 2 min com IA', 'Criar template de progresso no Notion'],
+      milestone: '✅ Primeira conversa gravada com IA — arquivo no Notion'
+    },
+    {
+      id: 'q2', label: 'Q2', period: 'Meses 4–6', level: 'Intermediate', color: '#7c3aed', colord: '#c084fc', bg: '#f5f3ff', bgd: 'none', border: '#ddd6fe', borderd: '#4c1d95',
+      goal: 'Desenvolver fluência básica e expressão',
+      objectives: ['Concluir o nível intermediário do Mairo Vergara', 'Analisar 24 músicas rock (2 por semana) com letra + contexto', 'Manter diálogos de 5 min com IA sobre tópicos do dia a dia', 'Completar o módulo 1 do Inglês de uma vez (Kiwify)', 'Escrever 1 resumo semanal em inglês no Notion'],
+      milestone: '✅ Gravar áudio de 5 min falando sobre uma música rock favorita'
+    },
+    {
+      id: 'q3', label: 'Q3', period: 'Meses 7–9', level: 'Upper-Intermediate', color: '#059669', colord: '#6ee7b7', bg: '#ecfdf5', bgd: 'none', border: '#a7f3d0', borderd: '#065f46',
+      goal: 'Consolidar gramática e vocabulário avançado',
+      objectives: ['Completar Inglês de uma vez da Kiwify inteiramente', 'Conseguir debater opiniões em inglês com a IA por 10 min', 'Entender 70% de músicas rock sem precisar ver a letra', 'Escrever resenhas de músicas/álbuns em inglês no Notion', 'Atingir 150 dias de streak no Duolingo'],
+      milestone: '✅ Debate de 10 min com IA sobre um álbum de rock — gravado'
+    },
+    {
+      id: 'q4', label: 'Q4', period: 'Meses 10–12', level: 'Fluency', color: '#d97706', colord: '#fcd34d', bg: '#fffbeb', bgd: 'none', border: '#fde68a', borderd: '#92400e',
+      goal: 'Independência linguística e expressão natural',
+      objectives: ['Manter conversas espontâneas de 15+ min com IA', 'Consumir conteúdo rock em inglês sem suporte de legendas', 'Criar playlist comentada com análises em inglês no Notion', 'Rever toda a jornada no Notion e definir metas do próximo ano', 'Completar 365 dias de hábito documentado'],
+      milestone: '✅ Vídeo-diário de 3 min em inglês sobre sua evolução no ano'
+    },
+  ]
+
+  const aiTips = [
+    { category: 'Conversação', icon: '💬', color: '#2563eb', items: ['"Vamos conversar por 10 minutos como nativo americano e estudante intermediário. Corrija meus erros no final."', '"Quero praticar small talk. Me faça perguntas sobre meu fim de semana e reaja naturalmente."', '"Me explique a gíria [X] que apareceu nessa letra de música: [letra]"'] },
+    { category: 'Análise de músicas', icon: '🎸', color: '#7c3aed', items: ['"Analise a letra de [música] do [artista]: explique expressões idiomáticas, gírias e contexto cultural."', '"Quais são as 10 palavras mais úteis dessa letra? Dê exemplos de uso no cotidiano."', '"Traduza essa frase de forma literal e depois de forma natural: [frase da música]"'] },
+    { category: 'Role-play', icon: '🎭', color: '#059669', items: ['"Vamos fazer um role-play: você é atendente de uma loja de discos em Los Angeles e eu sou um cliente."', '"Simule uma entrevista de emprego em inglês para a área de tecnologia. Me avalie no final."', '"Me ajude a ensaiar uma discussão sobre minha banda favorita como se estivéssemos num podcast."'] },
+    { category: 'Gramática & Correção', icon: '✏️', color: '#d97706', items: ['"Corrija esse texto, explicando cada erro e por quê está errado: [texto]"', '"Qual é a diferença entre [palavra A] e [palavra B]? Dê 3 exemplos de cada."', '"Reescreva essa frase de 3 maneiras: formal, informal e coloquial."'] },
+  ]
+
+  const notionPages = [
+    { icon: '📅', name: 'Daily Log', desc: 'Registro diário: o que estudou, nova palavra, frase do dia' },
+    { icon: '📊', name: 'Progress Tracker', desc: 'Métricas: streak Duolingo, horas de estudo, músicas analisadas' },
+    { icon: '🎸', name: 'Music Library', desc: 'Banco de músicas estudadas com vocabulário extraído' },
+    { icon: '🤖', name: 'AI Sessions', desc: 'Resumos das sessões de conversa com IA' },
+    { icon: '📖', name: 'Vocabulary Bank', desc: 'Palavras novas com contexto, exemplo e pronúncia' },
+    { icon: '🏆', name: 'Milestones', desc: 'Conquistas trimestrais e reflexões de progresso' },
+  ]
+
+  let activeDay = 'SEG', activeQtr = 'q1', activeTab = 'rotina', isDark = false
+
+  function toggleDark() {
+    isDark = !isDark
+    document.body.classList.toggle('dark', isDark)
+    document.getElementById('darkBtn').textContent = isDark ? '☀️ Light' : '🌙 Dark'
+    renderContentCards(); renderDayCard(); renderQtrCard(); renderQtrBtns()
+  }
+
+  function cs(type) {
+    const t = typeColors[type] || typeColors.rest
+    return isDark ? `background:${t.bgd};border-color:${t.bd}` : `background:${t.bg};border-color:${t.border}`
+  }
+  function cc(type) {
+    const t = typeColors[type] || typeColors.rest
+    return isDark ? (t.colord || t.color) : t.color
+  }
+
+  function renderContentCards() {
+    document.getElementById('contentCards').innerHTML = contentTypes.map(c => {
+      const s = isDark ? `background:${c.bgd};border-color:${c.bd}` : `background:${c.bg};border-color:${c.border}`
+      const textCol = isDark ? (c.colord || c.color) : c.color
+      return `<div class="cc" style="${s}">
+      <div class="cc-name" style="color:${textCol}">${c.icon} ${c.name}</div>
+      <div class="cc-sub">${c.sub}</div>
+      <span class="badge" style="background:${textCol};color:${isDark ? '#0f172a' : '#fff'}">${c.days}</span>
+    </div>`
+    }).join('')
+  }
+
+  function renderDayBtns() {
+    document.getElementById('dayBtns').innerHTML = weekdays.map(w => {
+      const mins = w.blocks.reduce((s, b) => s + (b.time === 'livre' ? 0 : parseInt(b.time)), 0)
+      const cls = `day-btn ${w.lang.toLowerCase()}${w.day === activeDay ? ' active' : ''}`
+      return `<button class="${cls}" onclick="setDay('${w.day}')">${w.day}<span class="day-mins">${mins ? mins + 'min' : 'livre'}</span></button>`
+    }).join('')
+  }
+
+  function renderDayCard() {
+    const d = weekdays.find(w => w.day === activeDay)
+    const total = d.blocks.reduce((s, b) => s + (b.time === 'livre' ? 0 : parseInt(b.time)), 0)
+    const langColor = isDark
+      ? (d.lang === 'EN' ? '#93c5fd' : d.lang === 'ES' ? '#fdbb2d' : '#9ca3af')
+      : (d.lang === 'EN' ? '#2563eb' : d.lang === 'ES' ? '#dc2626' : '#6b7280')
+    const langLabel = d.lang === 'EN' ? '🇺🇸 Inglês' : d.lang === 'ES' ? '🇪🇸 Espanhol' : '☁️ Descanso'
+    const blocks = d.blocks.map(b => `
+    <div class="block" style="${cs(b.type)}">
+      <span class="block-icon">${b.icon}</span>
+      <div style="flex:1">
+        <div class="block-label" style="color:${cc(b.type)}">${b.label}</div>
+        <div class="block-activity">${b.activity}</div>
+      </div>
+      <span class="block-time">${b.time}</span>
+    </div>`).join('')
+
+    let tip = ''
+    if (d.lang === 'ES') tip = `<div class="tip-box" style="background:var(--orange-bg);border-color:var(--orange-border)"><div class="tip-title" style="color:var(--orange-title)">🇪🇸 Dica do sábado</div><div class="tip-text" style="color:var(--orange-text)">Aproveite a proximidade do português. O Mairo Vergara de textos em espanhol acelera muito o vocabulário. Use a IA para falar sobre o texto que estudou.</div></div>`
+    if (d.lang === 'REST') tip = `<div class="tip-box" style="background:var(--rest-bg);border-color:var(--rest-border)"><div class="tip-title" style="color:var(--rest-title)">☁️ Domingo livre</div><div class="tip-text" style="color:var(--rest-text)">Consumo passivo apenas. Um podcast em inglês enquanto caminha já conta.</div></div>`
+
+    document.getElementById('dayCard').innerHTML = `
+    <div class="card-header">
+      <div class="card-title">${d.label}</div>
+      <span class="pill" style="background:${langColor};color:${isDark ? '#0f172a' : '#fff'}">${langLabel}${total ? ' · ' + total + 'min' : ''}</span>
+    </div>
+    <div class="card-body">${blocks}${tip}</div>`
+    document.getElementById('footerNote').innerHTML = `⏱ <b>Semanal:</b> ~5h30min inglês (Seg–Sex) · ~1h40 espanhol (sábado) · Domingo livre`
+  }
+
+  function renderQtrBtns() {
+    document.getElementById('qtrBtns').innerHTML = quarters.map(q => {
+      const bgCol = isDark ? q.colord : q.color
+      return `<button class="qtr-btn${q.id === activeQtr ? ' active' : ''}" onclick="setQtr('${q.id}')" style="${q.id === activeQtr ? `background:${bgCol};border-color:${bgCol};color:${isDark ? '#0f172a' : '#fff'}` : ''}">
+      ${q.label} · ${q.period}<br><span style="font-size:10px;font-weight:400">${q.level}</span>
+    </button>`
+    }).join('')
+  }
+
+  function renderQtrCard() {
+    const q = quarters.find(x => x.id === activeQtr)
+    const cardBg = isDark ? q.bgd : q.bg
+    const cardBorder = isDark ? q.borderd : q.border
+    const titleColor = isDark ? q.colord : q.color
+    const objBg = isDark ? '#1e293b' : '#fff'
+    document.getElementById('qtrCard').innerHTML = `
+    <div style="border-radius:12px;border:1.5px solid ${cardBorder};background:${cardBg};overflow:hidden">
+      <div class="card-header">
+        <div><div class="card-title" style="color:${titleColor}">${q.period}</div><div style="font-size:13px;font-weight:500;color:var(--text2);margin-top:2px">${q.goal}</div></div>
+        <span class="pill" style="background:${titleColor};color:${isDark ? '#0f172a' : '#fff'}">${q.level}</span>
+      </div>
+      <div class="card-body">
+        <div class="obj-list">${q.objectives.map((o, i) => `<div class="obj-item" style="background:${objBg};border-color:${cardBorder}"><span class="obj-num" style="color:${titleColor}">${i + 1}.</span>${o}</div>`).join('')}</div>
+        <div class="milestone" style="border-color:${titleColor}"><div class="milestone-label" style="color:${titleColor}">Marco do trimestre</div><div class="milestone-text">${q.milestone}</div></div>
+      </div>
+    </div>`
+  }
+
+  function renderAI() {
+    document.getElementById('aiGrid').innerHTML = aiTips.map(t => `
+    <div class="ai-card">
+      <div class="ai-card-title" style="color:${t.color}">${t.icon} ${t.category}</div>
+      <div class="ai-items">${t.items.map(i => `<div class="ai-item">${i}</div>`).join('')}</div>
+    </div>`).join('')
+  }
+
+  function renderNotion() {
+    document.getElementById('notionGrid').innerHTML = notionPages.map(n => `
+    <div class="notion-card">
+      <div class="notion-icon">${n.icon}</div>
+      <div><div class="notion-name">${n.name}</div><div class="notion-desc">${n.desc}</div></div>
+    </div>`).join('')
+  }
+
+  function setDay(day) { activeDay = day; renderDayBtns(); renderDayCard() }
+  function setQtr(id) { activeQtr = id; renderQtrBtns(); renderQtrCard() }
+
+  function showTab(tab, btn) {
+    document.getElementById(activeTab).style.display = 'none'
+    document.getElementById(tab).style.display = 'block'
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+    btn.classList.add('active')
+    activeTab = tab
+  }
+
+  renderContentCards(); renderDayBtns(); renderDayCard()
+  renderQtrBtns(); renderQtrCard(); renderAI(); renderNotion()
+</script>

@@ -1,0 +1,781 @@
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+  }
+
+  :root {
+    --bg: #f8fafc;
+    --surface: #fff;
+    --surface2: #f1f5f9;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --text2: #475569;
+    --text3: #94a3b8;
+    --warn-bg: #fffbeb;
+    --warn-border: #fde68a;
+    --warn-title: #92400e;
+    --warn-text: #78350f;
+    --amber-bg: #fef9c3;
+    --amber-border: #fde68a;
+    --amber-title: #713f12;
+    --green-bg: #f0fdf4;
+    --green-border: #a7f3d0;
+    --green-title: #065f46;
+    --green-text: #064e3b;
+    --radius: 10px;
+    --trans: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  body.dark {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #0f172a;
+    --border: #334155;
+    --text: #f1f5f9;
+    --text2: #94a3b8;
+    --text3: #475569;
+    --warn-bg: #451a03;
+    --warn-border: #92400e;
+    --warn-title: #fbbf24;
+    --warn-text: #fde68a;
+    --amber-bg: #422006;
+    --amber-border: #92400e;
+    --amber-title: #facc15;
+    --green-bg: #064e3b;
+    --green-border: #065f46;
+    --green-title: #86efac;
+    --green-text: #bbf7d0;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    transition: var(--trans)
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 20px 16px
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text)
+  }
+
+  .subtitle {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 3px
+  }
+
+  .dark-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--trans)
+  }
+
+  .dark-btn:hover {
+    border-color: var(--text3)
+  }
+
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px
+  }
+
+  .course-card {
+    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1.5px solid
+  }
+
+  .course-card .c-name {
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 3px
+  }
+
+  .course-card .c-mins {
+    font-size: 11px;
+    color: var(--text2);
+    margin-bottom: 6px
+  }
+
+  .course-card .badge {
+    display: inline-block;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500
+  }
+
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--surface2);
+    padding: 4px;
+    border-radius: 10px;
+    margin-bottom: 18px
+  }
+
+  .tab {
+    flex: 1;
+    padding: 7px 4px;
+    border: none;
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--trans);
+    font-weight: 500
+  }
+
+  .tab.active {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08)
+  }
+
+  .day-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px
+  }
+
+  .day-btn {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--trans);
+    min-width: 48px;
+    text-align: center
+  }
+
+  .day-btn.active {
+    background: #7c3aed;
+    border-color: #7c3aed;
+    color: #fff
+  }
+
+  .day-mins {
+    font-size: 9px;
+    opacity: 0.8;
+    display: block
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px
+  }
+
+  .card-header {
+    padding: 14px 16px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text)
+  }
+
+  .pill {
+    font-size: 11px;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500
+  }
+
+  .card-body {
+    padding: 0 16px 16px
+  }
+
+  .block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 9px;
+    border: 1.5px solid;
+    margin-bottom: 8px
+  }
+
+  .block:last-child {
+    margin-bottom: 0
+  }
+
+  .block-icon {
+    font-size: 18px;
+    flex-shrink: 0
+  }
+
+  .block-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin-bottom: 2px
+  }
+
+  .block-activity {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text)
+  }
+
+  .block-time {
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--surface);
+    flex-shrink: 0;
+    color: var(--text2)
+  }
+
+  .tip-box {
+    margin-top: 10px;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid
+  }
+
+  .tip-title {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 3px
+  }
+
+  .tip-text {
+    font-size: 12px;
+    line-height: 1.5
+  }
+
+  .legend {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-size: 11px;
+    font-weight: 600
+  }
+
+  .footer-note {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text2)
+  }
+
+  .phase-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px
+  }
+
+  .phase-btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--trans);
+    line-height: 1.4
+  }
+
+  .obj-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 14px
+  }
+
+  .obj-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 9px 13px;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text)
+  }
+
+  .obj-num {
+    font-weight: 700;
+    font-size: 12px;
+    min-width: 18px;
+    flex-shrink: 0
+  }
+
+  .milestone {
+    padding: 11px 13px;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 2px solid
+  }
+
+  .milestone-label {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 3px
+  }
+
+  .milestone-text {
+    font-size: 13px;
+    color: var(--text)
+  }
+
+  .timeline {
+    padding: 14px 16px;
+    background: var(--surface);
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    margin-top: 14px
+  }
+
+  .tl-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 12px
+  }
+
+  .tl-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px
+  }
+
+  .tl-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0
+  }
+
+  .tl-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border)
+  }
+
+  .tl-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text)
+  }
+
+  .tl-badge {
+    font-size: 10px;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-weight: 500
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 12px
+  }
+
+  .tip-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px
+  }
+
+  .tip-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px
+  }
+
+  .tip-items {
+    display: flex;
+    flex-direction: column;
+    gap: 7px
+  }
+
+  .tip-item {
+    padding: 9px 11px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.55
+  }
+
+  .priority-box {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: var(--surface2);
+    border-radius: 9px;
+    border: 1.5px solid #fde68a
+  }
+
+  .priority-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--warn-title);
+    margin-bottom: 4px
+  }
+
+  .priority-text {
+    font-size: 12px;
+    color: var(--warn-text);
+    line-height: 1.55
+  }
+</style>
+<h2 class="sr-only">Plano de estudos Dev e IA: rotina semanal, fases e dicas</h2>
+<div class="wrap" id="app">
+  <div class="header">
+    <div>
+      <div class="title">🧠 Plano de estudos — Dev & IA</div>
+      <div class="subtitle" id="subtitle">Pós Unipds · Rocketseat · Curso.dev · Testes técnicos · Conteúdo</div>
+    </div>
+    <button class="dark-btn" id="darkBtn" onclick="toggleDark()">🌙 Dark</button>
+  </div>
+
+  <div class="course-grid" id="courseGrid"></div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('rotina',this)">📅 Rotina semanal</button>
+    <button class="tab" onclick="showTab('plano',this)">🗓 Plano de fases</button>
+    <button class="tab" onclick="showTab('dicas',this)">💡 Dicas</button>
+  </div>
+
+  <div id="rotina">
+    <div class="day-btns" id="dayBtns"></div>
+    <div class="card" id="dayCard"></div>
+    <div class="legend" id="legend"></div>
+    <div class="footer-note" id="footerNote"></div>
+  </div>
+
+  <div id="plano" style="display:none">
+    <div class="phase-btns" id="phaseBtns"></div>
+    <div class="card" id="phaseCard"></div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div id="dicas" style="display:none">
+    <div class="tips-grid" id="tipsGrid"></div>
+    <div class="priority-box">
+      <div class="priority-title">🎯 Regra de prioridade</div>
+      <div class="priority-text"><b>Pós tem prazo fixo (março/2027)</b> — prioridade máxima em dias de pouco tempo.
+        <b>Curso.dev tem deadline dezembro/2026</b> — acelere nos próximos meses. <b>Rocketseat é o hábito de longo
+          prazo</b> — nunca zere, mas pode ceder em semanas pesadas.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const courses = [
+    { id: 'pos', name: 'Pós — IA Aplicada', icon: '🎓', color: '#7c3aed', colord: '#c084fc', bg: '#f5f3ff', bgd: 'none', border: '#ddd6fe', bd: '#4c1d95', minutes: 45, deadline: 'Março 2027' },
+    { id: 'rocket', name: 'Rocketseat', icon: '🚀', color: '#e11d48', colord: '#fda4af', bg: '#fff1f2', bgd: 'none', border: '#fecdd3', bd: '#9f1239', minutes: 30, deadline: 'Contínuo' },
+    { id: 'cursodev', name: 'Curso.dev', icon: '💻', color: '#0ea5e9', colord: '#7dd3fc', bg: '#f0f9ff', bgd: 'none', border: '#bae6fd', bd: '#075985', minutes: 30, deadline: 'Dez 2026' },
+    { id: 'content', name: 'Conteúdo técnico', icon: '📺', color: '#059669', colord: '#6ee7b7', bg: '#ecfdf5', bgd: 'none', border: '#a7f3d0', bd: '#065f46', minutes: 60, deadline: 'Hábito' },
+    { id: 'interview', name: 'Testes Técnicos', icon: '🧩', color: '#d97706', colord: '#fcd34d', bg: '#fffbeb', bgd: 'none', border: '#fde68a', bd: '#92400e', minutes: 15, deadline: 'Diário Seg–Sex' },
+  ]
+  const cm = Object.fromEntries(courses.map(c => [c.id, c]))
+
+  const weekdays = [
+    {
+      day: 'SEG', label: 'Segunda', blocks: [
+        { course: 'pos', time: '45 min', activity: 'Pós Unipds — aula ou material da semana', icon: '🎓' },
+        { course: 'cursodev', time: '30 min', activity: 'Curso.dev — módulo do dia', icon: '💻' },
+        { course: 'interview', time: '15 min', activity: 'Testes técnicos — frontend-enterview-prep', icon: '🧩' },
+      ]
+    },
+    {
+      day: 'TER', label: 'Terça', blocks: [
+        { course: 'pos', time: '45 min', activity: 'Pós Unipds — continuação da aula', icon: '🎓' },
+        { course: 'rocket', time: '30 min', activity: 'Rocketseat — trilha activa', icon: '🚀' },
+        { course: 'interview', time: '15 min', activity: 'Testes técnicos — frontend-enterview-prep', icon: '🧩' },
+      ]
+    },
+    {
+      day: 'QUA', label: 'Quarta', blocks: [
+        { course: 'pos', time: '45 min', activity: 'Pós Unipds — exercícios ou revisão', icon: '🎓' },
+        { course: 'cursodev', time: '30 min', activity: 'Curso.dev — módulo do dia', icon: '💻' },
+        { course: 'interview', time: '15 min', activity: 'Testes técnicos — frontend-enterview-prep', icon: '🧩' },
+      ]
+    },
+    {
+      day: 'QUI', label: 'Quinta', blocks: [
+        { course: 'pos', time: '45 min', activity: 'Pós Unipds — nova aula ou leitura', icon: '🎓' },
+        { course: 'rocket', time: '30 min', activity: 'Rocketseat — trilha ativa', icon: '🚀' },
+        { course: 'interview', time: '15 min', activity: 'Testes técnicos — frontend-enterview-prep', icon: '🧩' },
+      ]
+    },
+    {
+      day: 'SEX', label: 'Sexta', blocks: [
+        { course: 'pos', time: '45 min', activity: 'Pós Unipds — revisão semanal', icon: '🎓' },
+        { course: 'cursodev', time: '30 min', activity: 'Curso.dev — consolidação da semana', icon: '💻' },
+        { course: 'interview', time: '15 min', activity: 'Testes técnicos — frontend-enterview-prep', icon: '🧩' },
+      ]
+    },
+    {
+      day: 'SAB', label: 'Sábado', blocks: [
+        { course: 'rocket', time: '30 min', activity: 'Rocketseat — trilha ou projeto prático', icon: '🚀' },
+        { course: 'content', time: '60 min', activity: 'Vídeos técnicos — YouTube / conferências', icon: '📺' },
+      ]
+    },
+    {
+      day: 'DOM', label: 'Domingo', blocks: [
+        { course: 'content', time: '60 min', activity: 'Conteúdo da área — leitura leve ou vídeo', icon: '📺' },
+      ]
+    },
+  ]
+
+  const phases = [
+    {
+      id: 'p1', label: 'Fase 1', period: 'Jul – Set 2026', color: '#7c3aed', colord: '#c084fc', bg: '#f5f3ff', bgd: 'none', border: '#ddd6fe', borderd: '#4c1d95',
+      goal: 'Estabelecer ritmo e base sólida',
+      objectives: ['🎓 Concluir os primeiros módulos da pós (fundamentos de IA + ES)', '💻 Avançar 40% do Curso.dev — foco nos fundamentos', '🚀 Completar 1 trilha Rocketseat (ex: Node.js ou React)', '🧩 Praticar testes técnicos 15min/dia — algoritmos básicos', '📝 Criar workspace de estudos no Notion com registro semanal'],
+      milestone: '✅ Curso.dev 40% + 1 trilha Rocketseat finalizada'
+    },
+    {
+      id: 'p2', label: 'Fase 2', period: 'Out – Dez 2026', color: '#0ea5e9', colord: '#7dd3fc', bg: '#f0f9ff', bgd: 'none', border: '#bae6fd', borderd: '#075985',
+      goal: 'Concluir Curso.dev e aprofundar pós',
+      objectives: ['🎓 Atingir 50% da carga total da pós-graduação', '💻 Concluir 100% do Curso.dev até 31/12/2026', '🚀 Iniciar nova trilha Rocketseat (ex: FullStack ou DevOps)', '🧩 Avançar para desafios intermediários no repo de testes', '📝 Revisão trimestral no Notion — o que aprendeu, o que aplicou'],
+      milestone: '✅ Curso.dev 100% concluído — certificado gerado'
+    },
+    {
+      id: 'p3', label: 'Fase 3', period: 'Jan – Jun 2027', color: '#059669', colord: '#6ee7b7', bg: '#ecfdf5', bgd: 'none', border: '#a7f3d0', borderd: '#065f46',
+      goal: 'Acelerar pós e consolidar Rocketseat',
+      objectives: ['🎓 Atingir 75% da pós — módulos de IA avançada e projetos', '🚀 Completar 2 trilhas Rocketseat no semestre', '🧩 Resolver desafios avançados e simular entrevistas com IA', '📺 Produzir ao menos 1 projeto de portfólio com IA', '📝 Mid-review: checar alinhamento com prazo de março/2027'],
+      milestone: '✅ Pós 75% + projeto de portfólio com IA publicado'
+    },
+    {
+      id: 'p4', label: 'Fase 4', period: 'Jul – Mar 2027', color: '#d97706', colord: '#fcd34d', bg: '#fffbeb', bgd: 'none', border: '#fde68a', borderd: '#92400e',
+      goal: 'Conclusão da pós e consolidação final',
+      objectives: ['🎓 Concluir 100% da pós até março/2027 — TCC ou projeto final', '🚀 Manter consistência Rocketseat — 1 trilha por trimestre', '🧩 Revisão completa do repo de testes técnicos', '🏆 Organizar portfólio completo com todos os projetos do período', '📝 Retrospectiva geral: mapear próximos passos de carreira'],
+      milestone: '✅ Certificado de Pós-Graduação em mãos — março/2027'
+    },
+  ]
+
+  const timeline = [
+    { label: 'Curso.dev 100%', date: 'Dez 2026', color: '#0ea5e9' },
+    { label: 'Pós 50% concluída', date: 'Dez 2026', color: '#7c3aed' },
+    { label: 'Pós 75% concluída', date: 'Jun 2027', color: '#7c3aed' },
+    { label: '4 trilhas Rocketseat', date: 'Jun 2027', color: '#e11d48' },
+    { label: 'Pós 100% — certificado', date: 'Mar 2027', color: '#7c3aed' },
+  ]
+
+  const tips = [
+    { category: 'Gestão de tempo', icon: '⏱', color: '#7c3aed', items: ['Use blocos Pomodoro (25+5) para a pós — 1 Pomodoro e meio por sessão de 45min', 'Deixe Curso.dev e Rocketseat sempre pausados onde parou — nunca recomece do zero', 'Os 15min de testes técnicos são fixos: abra o repo, resolva 1 exercício, feche.'] },
+    { category: 'Consistência', icon: '🔥', color: '#e11d48', items: ['Não tente recuperar dias perdidos acumulando — volte na rotina normal no dia seguinte', 'Se tiver menos de 30 min disponíveis, faça só os 15min de testes técnicos (conta!)', 'Sábado é sua margem — use para repor qualquer sessão perdida na semana'] },
+    { category: 'Aplicação prática', icon: '🛠', color: '#0ea5e9', items: ['Aplique algo do Curso.dev ou Rocketseat nos seus projetos reais (Next.js / NestJS)', 'A cada módulo da pós concluído, identifique um caso real no seu trabalho', 'Crie um repositório privado no GitHub só para os experimentos dos cursos'] },
+    { category: 'Notion como hub', icon: '📝', color: '#059669', items: ['Registre toda semana: curso, módulo, tempo gasto e 1 insight aplicável', 'Mantenha um kanban simples: A fazer → Em curso → Concluído para cada trilha', 'Use a página de Milestones para celebrar marcos — motiva mais do que imagina'] },
+  ]
+
+  let activeDay = 'SEG'
+  let activePhase = 'p1'
+  let isDark = false
+
+  function toggleDark() {
+    isDark = !isDark
+    document.body.classList.toggle('dark', isDark)
+    document.getElementById('darkBtn').textContent = isDark ? '☀️ Light' : '🌙 Dark'
+    renderDayCard()
+    renderPhaseCard()
+    renderCourseGrid()
+    renderPhaseBtns()
+  }
+
+  function isDarkMode() { return isDark }
+
+  function courseStyle(c) {
+    return isDark
+      ? `background: var(--surface);border-color:${c.bd}`
+      : `background:${c.bg};border-color:${c.border}`
+  }
+
+  function renderCourseGrid() {
+    const total = weekdays.reduce((s, d) => s + d.blocks.reduce((ss, b) => ss + parseInt(b.time), 0), 0)
+    document.getElementById('subtitle').textContent = `Pós Unipds · Rocketseat · Curso.dev · Testes técnicos · Conteúdo · ~${Math.floor(total / 60)}h${total % 60}min/sem`
+    document.getElementById('courseGrid').innerHTML = courses.map(c => {
+      const titleCol = isDark ? c.colord : c.color
+      return `<div class="course-card" style="${courseStyle(c)}">
+      <div class="c-name" style="color:${titleCol}">${c.icon} ${c.name}</div>
+      <div class="c-mins">${c.minutes} min/sessão</div>
+      <span class="badge" style="background:${titleCol};color:${isDark ? '#0f172a' : '#fff'}">${c.deadline}</span>
+    </div>`
+    }).join('')
+  }
+
+  function renderDayBtns() {
+    document.getElementById('dayBtns').innerHTML = weekdays.map(w => {
+      const mins = w.blocks.reduce((s, b) => s + parseInt(b.time), 0)
+      return `<button class="day-btn${w.day === activeDay ? ' active' : ''}" onclick="setDay('${w.day}')">${w.day}<span class="day-mins">${mins}min</span></button>`
+    }).join('')
+  }
+
+  function renderDayCard() {
+    const d = weekdays.find(w => w.day === activeDay)
+    const total = d.blocks.reduce((s, b) => s + parseInt(b.time), 0)
+    let blocks = d.blocks.map(b => {
+      const c = cm[b.course]
+      const style = isDark
+        ? `background:${c.bgd};border-color:${c.bd}`
+        : `background:${c.bg};border-color:${c.border}`
+      const timeStyle = isDark ? `background:#1e293b;border-color:${c.bd}` : `background:#fff;border-color:${c.border}`
+      const titleCol = isDark ? c.colord : c.color
+      return `<div class="block" style="${style}">
+      <span class="block-icon">${b.icon}</span>
+      <div style="flex:1">
+        <div class="block-label" style="color:${titleCol}">${c.name}</div>
+        <div class="block-activity">${b.activity}</div>
+      </div>
+      <span class="block-time" style="${timeStyle}">${b.time}</span>
+    </div>`
+    }).join('')
+
+    let tip = ''
+    if (d.day === 'SAB') tip = `<div class="tip-box" style="background:var(--amber-bg);border-color:var(--amber-border)"><div class="tip-title" style="color:var(--amber-title)">💡 Sábado = margem de manobra</div><div class="tip-text" style="color:var(--warn-text)">Se perdeu sessão na semana, use o sábado para repor. Ótimo também para projetos práticos.</div></div>`
+    if (d.day === 'DOM') tip = `<div class="tip-box" style="background:var(--green-bg);border-color:var(--green-border)"><div class="tip-title" style="color:var(--green-title)">☁️ Domingo = consumo leve</div><div class="tip-text" style="color:var(--green-text)">Apenas vídeos ou leitura técnica leve. Sem pressão de completar módulos.</div></div>`
+    if (['SEG', 'TER', 'QUA', 'QUI', 'SEX'].includes(d.day)) tip = `<div class="tip-box" style="background:var(--warn-bg);border-color:var(--warn-border)"><div class="tip-title" style="color:var(--warn-title)">🧩 Testes técnicos</div><div class="tip-text" style="color:var(--warn-text)">Repositório: <a href="https://github.com/robertourias/frontend-enterview-prep" style="color:#f59e0b">frontend-enterview-prep</a> — 1 exercício por dia, sem pular.</div></div>`
+
+    document.getElementById('dayCard').innerHTML = `
+    <div class="card-header">
+      <div class="card-title">${d.label}</div>
+      <span class="pill" style="background:#1e293b">⏱ ${total} min</span>
+    </div>
+    <div class="card-body">${blocks}${tip}</div>
+  `
+    document.getElementById('legend').innerHTML = courses.map(c => {
+      const s = isDark ? `background:${c.bgd};border-color:${c.bd}` : `background:${c.bg};border-color:${c.border}`
+      const titleCol = isDark ? c.colord : c.color
+      return `<div class="legend-item" style="${s};color:${titleCol}">${c.icon} ${c.name}</div>`
+    }).join('')
+    const total2 = weekdays.reduce((s, d) => s + d.blocks.reduce((ss, b) => ss + parseInt(b.time), 0), 0)
+    document.getElementById('footerNote').innerHTML = `⏱ <b>Carga semanal:</b> ~${Math.floor(total2 / 60)}h${total2 % 60}min &nbsp;·&nbsp; 🎓 Pós: 5x/sem &nbsp;·&nbsp; 🚀 Rocket: 3x/sem &nbsp;·&nbsp; 💻 Curso.dev: 3x/sem &nbsp;·&nbsp; 🧩 Testes: 5x/sem &nbsp;·&nbsp; 📺 Conteúdo: fim de semana`
+  }
+
+  function renderPhaseBtns() {
+    document.getElementById('phaseBtns').innerHTML = phases.map(p => {
+      const bgCol = isDark ? p.colord : p.color
+      return `<button class="phase-btn${p.id === activePhase ? ' active' : ''}" onclick="setPhase('${p.id}')" style="${p.id === activePhase ? `background:${bgCol};border-color:${bgCol};color:${isDark ? '#0f172a' : '#fff'}` : ''}">
+      ${p.label}<br><span style="font-size:10px;font-weight:400">${p.period}</span>
+    </button>`
+    }).join('')
+  }
+
+  function renderPhaseCard() {
+    const p = phases.find(ph => ph.id === activePhase)
+    const cardBg = isDark ? p.bgd : p.bg
+    const cardBorder = isDark ? p.borderd : p.border
+    const titleColor = isDark ? p.colord : p.color
+    const objBg = isDark ? '#1e293b' : '#fff'
+    document.getElementById('phaseCard').innerHTML = `
+    <div style="border-radius:12px;border:1.5px solid ${cardBorder};background:${cardBg};overflow:hidden">
+      <div class="card-header">
+        <div><div class="card-title" style="color:${titleColor}">${p.period}</div><div style="font-size:13px;font-weight:500;color:var(--text2);margin-top:2px">${p.goal}</div></div>
+        <span class="pill" style="background:${titleColor};color:${isDark ? '#0f172a' : '#fff'}">${p.label}</span>
+      </div>
+      <div class="card-body">
+        <div class="obj-list">${p.objectives.map((o, i) => `<div class="obj-item" style="background:${objBg};border-color:${cardBorder}"><span class="obj-num" style="color:${titleColor}">${i + 1}.</span>${o}</div>`).join('')}</div>
+        <div class="milestone" style="border-color:${titleColor}"><div class="milestone-label" style="color:${titleColor}">Marco da fase</div><div class="milestone-text">${p.milestone}</div></div>
+      </div>
+    </div>
+  `
+    document.getElementById('timeline').innerHTML = `
+    <div class="tl-title">📍 Timeline dos objetivos</div>
+    ${timeline.map(t => {
+      const color = isDark ? (t.color === '#7c3aed' ? '#c084fc' : t.color === '#0ea5e9' ? '#7dd3fc' : t.color === '#e11d48' ? '#fda4af' : t.color) : t.color
+      return `<div class="tl-item"><div class="tl-dot" style="background:${color}"></div><div class="tl-line"></div><span class="tl-label">${t.label}</span><span class="tl-badge" style="background:${color};color:${isDark ? '#0f172a' : '#fff'}">${t.date}</span></div>`
+    }).join('')}
+  `
+  }
+
+  function renderTips() {
+    document.getElementById('tipsGrid').innerHTML = tips.map(t => `
+    <div class="tip-card">
+      <div class="tip-card-title" style="color:${t.color}">${t.icon} ${t.category}</div>
+      <div class="tip-items">${t.items.map(i => `<div class="tip-item">${i}</div>`).join('')}</div>
+    </div>
+  `).join('')
+  }
+
+  function setDay(day) { activeDay = day; renderDayBtns(); renderDayCard() }
+  function setPhase(id) { activePhase = id; renderPhaseBtns(); renderPhaseCard() }
+
+  let activeTab = 'rotina'
+  function showTab(tab, btn) {
+    document.getElementById(activeTab).style.display = 'none'
+    document.getElementById(tab).style.display = 'block'
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+    btn.classList.add('active')
+    activeTab = tab
+  }
+
+  renderCourseGrid()
+  renderDayBtns()
+  renderDayCard()
+  renderPhaseBtns()
+  renderPhaseCard()
+  renderTips()
+</script>
