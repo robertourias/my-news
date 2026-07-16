@@ -1,4 +1,4 @@
-import { CalendarDays, MapPin } from "lucide-react";
+import { CalendarDays, MapPin, Pill } from "lucide-react";
 import type { AgendaEvent } from "@/lib/types";
 import { formatTime } from "@/lib/date";
 import { Section } from "../section";
@@ -25,31 +25,39 @@ export function AgendaSection({ events, aiSummary }: AgendaSectionProps) {
         </p>
       ) : (
         <Stagger className="flex flex-col gap-3">
-          {events.map((event, i) => (
-            <StaggerItem key={`${event.title}-${i}`}>
-              <div className="glass-card flex items-center gap-4 p-4 md:p-5">
-                <span
-                  className="inline-flex min-w-[4.5rem] justify-center rounded-lg border px-2.5 py-1.5 text-sm font-semibold tabular-nums"
-                  style={{
-                    color: "var(--accent)",
-                    borderColor: "color-mix(in oklab, var(--accent) 25%, transparent)",
-                    background: "color-mix(in oklab, var(--accent) 8%, transparent)",
-                  }}
-                >
-                  {event.allDay || !event.start ? "Dia todo" : formatTime(event.start)}
-                </span>
-                <div className="min-w-0">
-                  <p className="truncate font-medium text-foreground">{event.title}</p>
-                  {event.location && (
-                    <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-muted">
-                      <MapPin className="size-3 shrink-0" aria-hidden />
-                      {event.location}
-                    </p>
-                  )}
+          {events.map((event, i) => {
+            const isSupplement = event.kind === "supplement";
+            const tone = isSupplement ? "#2dd4bf" : "var(--accent)";
+            return (
+              <StaggerItem key={`${event.title}-${i}`}>
+                <div className="glass-card flex items-center gap-4 p-4 md:p-5">
+                  <span
+                    className="inline-flex min-w-[4.5rem] shrink-0 items-center justify-center gap-1 rounded-lg border px-2.5 py-1.5 text-sm font-semibold tabular-nums"
+                    style={{
+                      color: tone,
+                      borderColor: `color-mix(in oklab, ${tone} 25%, transparent)`,
+                      background: `color-mix(in oklab, ${tone} 8%, transparent)`,
+                    }}
+                  >
+                    {isSupplement && <Pill className="size-3.5 shrink-0" aria-hidden />}
+                    {event.allDay || !event.start ? "Dia todo" : formatTime(event.start)}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="truncate font-medium text-foreground">{event.title}</p>
+                    {event.location && (
+                      <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-muted">
+                        <MapPin className="size-3 shrink-0" aria-hidden />
+                        {event.location}
+                      </p>
+                    )}
+                    {event.reason && (
+                      <p className="mt-0.5 text-[0.7rem] leading-snug text-muted">{event.reason}</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </StaggerItem>
-          ))}
+              </StaggerItem>
+            );
+          })}
         </Stagger>
       )}
     </Section>

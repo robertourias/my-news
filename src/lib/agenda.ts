@@ -196,15 +196,94 @@ function shiftToToday(iso: string, today: string): string {
   return `${today}T${time}${tzOffsetString(SITE.timezone)}`;
 }
 
+interface SupplementSlot {
+  hour: number;
+  minute: number;
+  title: string;
+  reason: string;
+  /** restringe a exibição a um dia da semana (0 = domingo) */
+  weekday?: number;
+}
+
+const SUPPLEMENT_SCHEDULE: SupplementSlot[] = [
+  {
+    hour: 7,
+    minute: 0,
+    title: "Long Jack + água",
+    reason: "Melhor pela manhã, pode ser estimulante e não interfere no sono.",
+  },
+  {
+    hour: 9,
+    minute: 0,
+    title: "Sertralina + Multivitamínico + Vitamina D + Biotina",
+    reason:
+      "A sertralina costuma ser melhor tolerada com alimento. A vitamina D e o multivitamínico têm melhor absorção com uma refeição contendo alguma gordura.",
+  },
+  {
+    hour: 12,
+    minute: 0,
+    title: "Coenzima Q10 + Selênio + Saw Palmetto",
+    reason:
+      "Todos apresentam boa absorção com a refeição. CoQ10 é lipossolúvel e o selênio complementa a estratégia para saúde reprodutiva.",
+  },
+  {
+    hour: 20,
+    minute: 45,
+    title: "Arginina + Beta-alanina + (Tadalafila apenas quando indicado)",
+    reason:
+      "Horário adequado para maximizar o efeito durante o treino. A tadalafila não precisa ser usada diariamente; utilize conforme orientação médica e objetivo.",
+  },
+  {
+    hour: 22,
+    minute: 45,
+    title: "Whey Protein + Creatina",
+    reason:
+      "Favorece recuperação e praticidade. A creatina funciona por saturação, então o horário não é crítico, mas associá-la ao shake facilita a adesão.",
+  },
+  {
+    hour: 23,
+    minute: 0,
+    title: "Risperidona + Minoxidil oral + ZMA",
+    reason:
+      "A risperidona aproveita o efeito sedativo. O ZMA pode favorecer o sono e o minoxidil pode ser tomado nesse horário sem prejuízo da eficácia.",
+  },
+  {
+    hour: 20,
+    minute: 0,
+    weekday: 0,
+    title: "Aplicação do Mounjaro 5 mg",
+    reason: "Manter um dia e horário fixos facilita a adesão e a estabilidade do tratamento.",
+  },
+];
+
+function buildSupplementEvents(today: string): AgendaEvent[] {
+  const todayWeekday = BYDAY_MAP.indexOf(weekdayOf(today));
+  const offset = tzOffsetString(SITE.timezone);
+
+  return SUPPLEMENT_SCHEDULE.filter(
+    (slot) => slot.weekday === undefined || slot.weekday === todayWeekday
+  ).map((slot) => ({
+    title: slot.title,
+    reason: slot.reason,
+    kind: "supplement",
+    allDay: false,
+    start: `${today}T${String(slot.hour).padStart(2, "0")}:${String(slot.minute).padStart(2, "0")}:00${offset}`,
+  }));
+}
+
 export async function fetchAgenda(): Promise<AgendaEvent[]> {
+  const today = todayISO();
+  const supplementEvents = buildSupplementEvents(today);
+
   const url = process.env.CALENDAR_ICS_URL;
-  if (!url) return [];
+  if (!url) {
+    return supplementEvents.sort((a, b) => (a.start ?? "").localeCompare(b.start ?? ""));
+  }
 
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(10_000) });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const ics = await res.text();
-    const today = todayISO();
 
     const vevents = parseVEvents(ics);
 
@@ -215,7 +294,7 @@ export async function fetchAgenda(): Promise<AgendaEvent[]> {
       if (ev.uid && ev.recurrenceId) overriddenDates.add(`${ev.uid}|${ev.recurrenceId}`);
     }
 
-    const events: AgendaEvent[] = [];
+    const events: AgendaEvent[] = [...supplementEvents];
     for (const ev of vevents) {
       if (!ev.summary) continue;
       if (ev.status === "CANCELLED") continue;
@@ -233,12 +312,13 @@ export async function fetchAgenda(): Promise<AgendaEvent[]> {
         start: occurrence.start,
         location: ev.location,
         allDay: occurrence.allDay,
+        kind: "calendar",
       });
     }
 
     return events.sort((a, b) => (a.start ?? "").localeCompare(b.start ?? ""));
   } catch (err) {
     console.error("[agenda] falha ao ler ICS:", (err as Error).message);
-    return [];
+    return supplementEvents.sort((a, b) => (a.start ?? "").localeCompare(b.start ?? ""));
   }
 }

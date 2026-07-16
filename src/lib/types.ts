@@ -38,6 +38,10 @@ export interface AgendaEvent {
   start: string | null;
   location?: string;
   allDay: boolean;
+  /** motivo/observação, exibido menor abaixo do título (ex.: suplementação) */
+  reason?: string;
+  /** origem do evento — usado para variar a cor no card */
+  kind?: "calendar" | "supplement";
 }
 
 export interface AIHighlight {
